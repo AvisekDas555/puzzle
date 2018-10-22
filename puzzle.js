@@ -69,7 +69,9 @@
 		};
 	}
 
-
+	/**
+	 * MAIN CONSTRUCTOR
+	 */
 	var Puzzle = function(place, imageURL, root, blankSlideIndex) {
 
 		if (!(this instanceof Puzzle)) return new Puzzle(place, imageURL, root, blankSlideIndex);
