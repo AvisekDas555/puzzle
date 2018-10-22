@@ -1,0 +1,198 @@
+.Puzzle {
+	position: relative;
+	display: inline-block;
+	*display: block;
+	max-width: 100%;
+	height: auto;
+	*float: left;
+	border-radius: 1px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	-webkit-transform: translate3d(0, 0, 0);
+	outline: none;
+}
+
+.Puzzle.Puzzle-solved {}
+
+/* Little hack to size puzzle container (.Puzzle) as the original image size if the puzzle container's width and/or height is auto */
+.Puzzle-hidden-image {
+	position: relative;
+	display: block;
+	margin: 0;
+	width: inherit;
+	height: inherit;
+	max-width: inherit;
+	max-height: inherit;
+	min-width: inherit;
+	min-height: inherit;
+	visibility: hidden;
+}
+
+.Puzzle-slides {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: inherit;
+}
+
+.Puzzle-slides:after {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	border-radius: inherit;
+	-webkit-transition:
+		-webkit-box-shadow 1s ease-out,
+		box-shadow 1s ease-out;
+	   -moz-transition:
+		-moz-box-shadow 1s ease-out,
+		box-shadow 1s ease-out;
+	    -ms-transition:
+		box-shadow 1s ease-out;
+	     -o-transition:
+		box-shadow 1s ease-out;
+	        transition:
+		box-shadow 1s ease-out;
+	pointer-events: none;
+	z-index: 2;
+}
+
+.Puzzle-slide {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: block;
+	/*border: 1px solid #000;*/
+	-webkit-box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+	   -moz-box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+	        box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+	-webkit-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		-webkit-box-shadow 100ms ease-out,
+		box-shadow 100ms ease-out;
+	   -moz-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		-moz-box-shadow 100ms ease-out,
+		box-shadow 100ms ease-out;
+	    -ms-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		box-shadow 100ms ease-out;
+	     -o-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		box-shadow 100ms ease-out;
+	        transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		box-shadow 100ms ease-out;
+	z-index: 1;
+}
+
+.Puzzle-slide.Puzzle-first-row.Puzzle-first-col {
+	border-top-left-radius: inherit;
+}
+
+.Puzzle-slide.Puzzle-first-row.Puzzle-last-col {
+	border-top-right-radius: inherit;
+}
+
+.Puzzle-slide.Puzzle-last-row.Puzzle-first-col {
+	border-bottom-left-radius: inherit;
+}
+
+.Puzzle-slide.Puzzle-last-row.Puzzle-last-col {
+	border-bottom-right-radius: inherit;
+}
+
+.Puzzle:not(.Puzzle-solved) > .Puzzle-slides > .Puzzle-slide:hover {
+	border-radius: 2px;
+	-webkit-box-shadow: 0 0 16px 1px #000, inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+	   -moz-box-shadow: 0 0 16px 1px #000, inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+	        box-shadow: 0 0 16px 1px #000, inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+	z-index: 2;
+}
+
+.Puzzle:not(.Puzzle-solved) > .Puzzle-slides > .Puzzle-slide:active {
+	border-radius: 2px;
+	-webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), inset 0 0 8px 1px rgba(0, 0, 0, 0.75);
+	   -moz-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), inset 0 0 8px 1px rgba(0, 0, 0, 0.75);
+	        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), inset 0 0 8px 1px rgba(0, 0, 0, 0.75);
+	z-index: 2;
+}
+
+.Puzzle-blank-slide {
+	/*visibility: hidden;*/
+	opacity: 0;
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
+	-webkit-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		opacity 1s ease-out;
+	   -moz-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		opacity 1s ease-out;
+	    -ms-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		opacity 1s ease-out;
+	     -o-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		opacity 1s ease-out;
+	        transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		opacity 1s ease-out;
+	z-index: 0;
+}
+
+.Puzzle.Puzzle-solved > .Puzzle-slides > .Puzzle-slide:not(.Puzzle-blank-slide) {
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
+	-webkit-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		-webkit-box-shadow 1s ease-out,
+		box-shadow 1s ease-out;
+	   -moz-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		-moz-box-shadow 1s ease-out,
+		box-shadow 1s ease-out;
+	    -ms-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		box-shadow 1s ease-out;
+	     -o-transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		box-shadow 1s ease-out;
+	        transition:
+		left 250ms ease-out,
+		top 250ms ease-out,
+		box-shadow 1s ease-out;
+}
+
+.Puzzle.Puzzle-solved > .Puzzle-slides:after {
+	-webkit-box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+	   -moz-box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+	        box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.Puzzle.Puzzle-solved > .Puzzle-slides > .Puzzle-blank-slide {
+	opacity: 1;
+}
