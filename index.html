@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+
+		<title>Puzzle</title>
+
+		<link rel="stylesheet" type="text/css" href="puzzle.css" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+
+		<script type="text/javascript">
+// Error Tracking
+window.onerror = function(errorMsg, url, lineNumber) {
+	alert("JavaScript Error!\n\nMassage: " + errorMsg + "\nURL: " + url + "\nLine: " + lineNumber + "\n");
+};
+		</script>
+
+	</head>
+
+	<body>
+
+		<header>
+
+			<h1>Puzzle</h1>
+
+			<p>Written in JavaScript and dependency free.</p>
+
+		</header>
+
+		<main>
+
+			<section>
+				<div class="first-demo-container">
+					<div id="demo"></div>
+					<ul class="button-strip">
+						<li>
+							<button id="randomize">Randomize</button>
+						</li>
+						<li>
+							<button id="show-hint">Show Hint</button>
+						</li>
+					</ul>
+				</div>
+			</section>
+
+			<section>
+				<h3>Getting Started</h3>
+				<p>Just include the needed CSS and JavaScript files, and you are ready to go!</p>
+				<pre>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;puzzle.css&quot; /&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;puzzle.js&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+	var container = document.getElementById(&quot;puzzle&quot;);
+	var myPuzzle = new Puzzle(container, &quot;puzzle.jpg&quot;, 4);
+&lt;/script&gt;</pre>
+			</section>
+
+			<section>
+				<h3>Configuration</h3>
+				<h4>The Syntex</h4>
+				<pre>var myPuzzle = new Puzzle(<i>place</i>, <i>imageURL</i>[, <i>root</i>, <i>blankSlideIndex</i>]);</pre>
+				<dl>
+					<dt><code><strong>place</strong>: HTMLElement | function(element: HTMLElement)</code></dt>
+					<dd>
+						<p>The place where you want to append the container of Puzzle.</p>
+						<p>In cases where you don't want to append the Puzzle container to an element, and need more control over the way it is inserted, the first argument to the <code>Puzzle</code> function can also be a function that, when given a DOM element, inserts it into the document somewhere. This could be used to, for example, replace an image with a real Puzzle:</p>
+						<pre>var myPuzzle = new Puzzle(function(elt) {
+	myImg.parentNode.replaceChild(elt, myImg);
+}, myImg.src);</pre>
+					</dd>
+					<dt><code><strong>imageURL</strong>: string</code></dt>
+					<dd>
+						<p>The working URL of the image which will be used in Puzzle.</p>
+					</dd>
+					<dt><code><strong>root</strong>: integer</code> <small>(optional)</small></dt>
+					<dd>
+						<p>Default value: 4</p>
+						<p>The number of columns and/or rows in Puzzle.</p>
+					</dd>
+					<dt><code><strong>blankSlideIndex</strong>: integer</code> <small>(optional)</small></dt>
+					<dd>
+						<p>Default value: <i>random</i></p>
+						<p>The index of blank slide.</p>
+					</dd>
+				</dl>
+			</section>
+
+			<section>
+				<h3>Methods</h3>
+				<dl>
+					<dt><code><strong>getTurnPosibilities</strong>() &rarr; { left: boolean, up: boolean, right: boolean, down: boolean }</code></dt>
+					<dd>
+						<p>Returns the possible directions in which can be turned.</p>
+					</dd>
+					<dt><code><strong>turnLeft</strong>()</code><span class="keybinding"><kbd>ArrowLeft</kbd></span></dt>
+					<dt><code><strong>turnUp</strong>()</code><span class="keybinding"><kbd>ArrowUp</kbd></span></dt>
+					<dt><code><strong>turnRight</strong>()</code><span class="keybinding"><kbd>ArrowRight</kbd></span></dt>
+					<dt><code><strong>turnDown</strong>()</code><span class="keybinding"><kbd>ArrowDown</kbd></span></dt>
+					<dd>
+						<p>Takes turn.</p>
+					</dd>
+					<dt><code><strong>randomize</strong>(?steps: integer)</code><span class="keybinding"><kbd>R</kbd></span></dt>
+					<dd>
+						<p>Randomizes the slides of the Puzzle.</p>
+					</dd>
+					<dt><code><strong>solve</strong>()</code></dt>
+					<dd>
+						<p>Sorts the slides and builds the image of the Puzzle instantly.</p>
+					</dd>
+					<dt><code><strong>addEventListener</strong>(type: string, handler: function(event: EventObject))</code></dt>
+					<dt><code><strong>removeEventListener</strong>(type: string, handler: function(event: EventObject))</code></dt>
+					<dd>
+						<p>Adds/removes event listeners on main container element of Puzzle.</p>
+					</dd>
+				</dl>
+			</section>
+
+			<section>
+				<h3>Events</h3>
+				<dl>
+					<dt><code><strong>&quot;turn&quot;</strong> (instance: Puzzle, direction: string)</code></dt>
+					<dd>
+						<p>Fires every time a slide is moved. The <code>direction</code> is a <code>(&quot;left&quot; | &quot;up&quot; | &quot;right&quot; | &quot;down&quot;)</code> string that describes the direction of movement of the Puzzle&apos;s blank slide.</p>
+					</dd>
+					<dt><code><strong>&quot;beforeturn&quot;</strong> (instance: Puzzle, direction: string)</code></dt>
+					<dd>
+						<p>This event is fired before a turn is taken, and its handler may choose to modify or cancel the turn. Like the normal events, this event can be cancelled by <code>event.preventDefault();</code>.</p>
+					</dd>
+					<dt><code><strong>&quot;solve&quot;</strong> (instance: Puzzle)</code></dt>
+					<dd>
+						<p>Fires after the whole puzzle is solved.</p>
+					</dd>
+					<dt><code><strong>&quot;randomize&quot;</strong> (instance: Puzzle, steps: integer)</code></dt>
+					<dd>
+						<p>This event is fired after the slides of the Puzzle is randomized by <code>Puzzle.randomize();</code>. The <code>steps</code> is an integer that describes the number of random turns.</p>
+					</dd>
+					<dt><code><strong>&quot;beforerandomize&quot;</strong> (instance: Puzzle, steps: integer)</code></dt>
+					<dd>
+						<p>This event is fired before the Puzzle is being randomized, and its handler may choose to modify the number of random steps and may cancel the whole action.</p>
+					</dd>
+					<dt><code><strong>&quot;showhint&quot;</strong> (instance: Puzzle)</code></dt>
+					<dt><code><strong>&quot;hidehint&quot;</strong> (instance: Puzzle)</code></dt>
+					<dd>
+						<p>Fires before hint is shown/hidden. These two events are also cancellable.</p>
+					</dd>
+				</dl>
+			</section>
+
+			<section>
+				<h3>Browser Support</h3>
+				<ul>
+					<li>Chrome 45+</li>
+					<li>Firefox 38+</li>
+					<li>Edge 12+</li>
+					<li>Internet Explorer 10+</li>
+					<li>Safari 9+</li>
+					<li>Android 4.4+</li>
+					<li>iOS</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Fork me on Github</h3>
+				<p>Jump to <a href="#">repository page</a>.</p>
+			</section>
+
+			<section>
+				<h3>License</h3>
+				<p>MIT</p>
+			</section>
+
+		</main>
+
+		<footer>
+
+			<p>Made with <span class="love"></span> by Avi</p>
+
+		</footer>
+
+		<script type="text/javascript" src="Puzzle.js"></script>
+
+		<script type="text/javascript">
+
+var container = document.getElementById("demo");
+var myPuzzle = new Puzzle(container, "puzzle.jpg", 4);
+
+document.getElementById("randomize").addEventListener("click", function() {
+	myPuzzle.randomize();
+	myPuzzle.focus();
+});
+
+document.getElementById("show-hint").addEventListener("touchstart", function(e) {
+	myPuzzle.showHint();
+	myPuzzle.focus();
+});
+
+document.getElementById("show-hint").addEventListener("touchend", function(e) {
+	myPuzzle.hideHint();
+	myPuzzle.focus();
+});
+
+		</script>
+
+	</body>
+
+</html>
