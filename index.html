@@ -22,7 +22,7 @@ window.onerror = function(errorMsg, url, lineNumber) {
 
 	<body>
 
-		<header>
+		<header class="container">
 
 			<h1>Puzzle</h1>
 
@@ -30,19 +30,19 @@ window.onerror = function(errorMsg, url, lineNumber) {
 
 		</header>
 
-		<main>
+		<main class="container">
 
 			<section>
-				<div class="first-demo-container">
-					<div id="demo"></div>
-					<ul class="button-strip">
-						<li>
-							<button id="randomize">Randomize</button>
-						</li>
-						<li>
-							<button id="show-hint">Show Hint</button>
-						</li>
-					</ul>
+				<div class="demo demo-1">
+					<div class="puzzle" id="puzzle-1"></div>
+					<div class="row">
+						<div class="col">
+							<button type="button" class="btn btn-primary btn-block" id="puzzle-1-randomize">Randomize</button>
+						</div>
+						<div class="col">
+							<button type="button" class="btn btn-primary btn-block" id="puzzle-1-show-hint">Show Hint</button>
+						</div>
+					</div>
 				</div>
 			</section>
 
@@ -91,10 +91,6 @@ window.onerror = function(errorMsg, url, lineNumber) {
 			<section>
 				<h3>Methods</h3>
 				<dl>
-					<dt><code><strong>getTurnPosibilities</strong>() &rarr; { left: boolean, up: boolean, right: boolean, down: boolean }</code></dt>
-					<dd>
-						<p>Returns the possible directions in which can be turned.</p>
-					</dd>
 					<dt><code><strong>turnLeft</strong>()</code><span class="keybinding"><kbd>ArrowLeft</kbd></span></dt>
 					<dt><code><strong>turnUp</strong>()</code><span class="keybinding"><kbd>ArrowUp</kbd></span></dt>
 					<dt><code><strong>turnRight</strong>()</code><span class="keybinding"><kbd>ArrowRight</kbd></span></dt>
@@ -110,12 +106,36 @@ window.onerror = function(errorMsg, url, lineNumber) {
 					<dd>
 						<p>Sorts the slides and builds the image of the Puzzle instantly.</p>
 					</dd>
+					<dt><code><strong>getTurnPosibilities</strong>() &rarr; { left: boolean, up: boolean, right: boolean, down: boolean }</code></dt>
+					<dd>
+						<p>Returns the possible directions in which can be turned.</p>
+					</dd>
 					<dt><code><strong>addEventListener</strong>(type: string, handler: function(event: EventObject))</code></dt>
 					<dt><code><strong>removeEventListener</strong>(type: string, handler: function(event: EventObject))</code></dt>
 					<dd>
 						<p>Adds/removes event listeners on main container element of Puzzle.</p>
 					</dd>
 				</dl>
+				<div class="demo demo-2">
+					<div class="puzzle" id="puzzle-2"></div>
+					<div class="btn-toolbar" role="toolbar">
+						<button type="button" class="btn btn-primary" id="puzzle-2-methods-turnLeft">turnLeft()</button>
+						<button type="button" class="btn btn-primary" id="puzzle-2-methods-turnUp">turnUp()</button>
+						<button type="button" class="btn btn-primary" id="puzzle-2-methods-turnRight">turnRight()</button>
+						<button type="button" class="btn btn-primary" id="puzzle-2-methods-turnDown">turnDown()</button>
+						<button type="button" class="btn btn-primary" id="puzzle-2-methods-randomize">randomize()</button>
+						<button type="button" class="btn btn-primary" id="puzzle-2-methods-solve">solve()</button>
+						<button type="button" class="btn btn-primary" id="puzzle-2-methods-getTurnPosibilities">getTurnPosibilities()</button>
+						<button type="button" class="btn btn-primary" id="puzzle-2-methods-addEventListener">addEventListener()</button>
+						<button type="button" class="btn btn-primary" id="puzzle-2-methods-removeEventListener">removeEventListener()</button>
+					</div>
+					<div class="console">
+						<div class="console-rows" id="console-rows"></div>
+						<div class="console-prompt">
+							<textarea id="console-textarea" rows="1"></textarea>
+						</div>
+					</div>
+				</div>
 			</section>
 
 			<section>
@@ -176,7 +196,9 @@ window.onerror = function(errorMsg, url, lineNumber) {
 
 		<footer>
 
-			<p>Made with <span class="love"></span> by Avi</p>
+			<div class="container">
+				<span class="text-muted">Made with <span class="love"></span> by Avi</span>
+			</div>
 
 		</footer>
 
@@ -184,22 +206,79 @@ window.onerror = function(errorMsg, url, lineNumber) {
 
 		<script type="text/javascript">
 
-var container = document.getElementById("demo");
-var myPuzzle = new Puzzle(container, "puzzle.jpg", 4);
+var $ = function(id) {
+	return document.getElementById(id);
+};
 
-document.getElementById("randomize").addEventListener("click", function() {
-	myPuzzle.randomize();
-	myPuzzle.focus();
+
+// demo
+
+var puzzle1 = new Puzzle($("puzzle-1"), "puzzle-1.jpg", 4);
+
+$("puzzle-1-randomize").addEventListener("click", function() {
+	puzzle1.randomize();
 });
 
-document.getElementById("show-hint").addEventListener("touchstart", function(e) {
-	myPuzzle.showHint();
-	myPuzzle.focus();
+$("puzzle-1-show-hint").addEventListener("touchstart", function(e) {
+	puzzle1.showHint();
 });
 
-document.getElementById("show-hint").addEventListener("touchend", function(e) {
-	myPuzzle.hideHint();
-	myPuzzle.focus();
+$("puzzle-1-show-hint").addEventListener("touchend", function(e) {
+	puzzle1.hideHint();
+});
+
+
+// demo-2
+
+var puzzle2 = new Puzzle($("puzzle-2"), "puzzle-2.jpg", 4);
+
+$("puzzle-2-methods-turnLeft").addEventListener("click", function() {
+	puzzle2.turnLeft();
+});
+
+$("puzzle-2-methods-turnUp").addEventListener("click", function() {
+	puzzle2.turnUp();
+});
+
+$("puzzle-2-methods-turnRight").addEventListener("click", function() {
+	puzzle2.turnRight();
+});
+
+$("puzzle-2-methods-turnDown").addEventListener("click", function() {
+	puzzle2.turnDown();
+});
+
+$("puzzle-2-methods-randomize").addEventListener("click", function() {
+	puzzle2.randomize();
+});
+
+$("puzzle-2-methods-solve").addEventListener("click", function() {
+	puzzle2.solve();
+});
+
+var consoleRows = $("console-rows");
+var consoleInput = $("console-textarea");
+
+var consoleEvaluate = function(code) {
+	var row = document.createElement("div");
+	row.className = "console-row";
+	var input = document.createElement("pre");
+	input.className = "console-input";
+	input.innerHTML = code;
+	row.appendChild(input);
+	var output = document.createElement("pre");
+	output.className = "console-output";
+	output.innerHTML = eval(code);
+	row.appendChild(output);
+	consoleRows.appendChild(row);
+};
+
+consoleInput.addEventListener("keydown", function(e) {
+	if (e.keyCode == 13) {
+		consoleEvaluate(consoleInput.value);
+		e.preventDefault();
+		consoleInput.value = "";
+	}
 });
 
 		</script>
