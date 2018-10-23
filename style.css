@@ -9089,32 +9089,80 @@ body > footer > p {
 	font-size: 75%;
 }
 
+pre {
+    background-color: #f7f7f9;
+    padding: 0.5rem 1rem;
+    max-height: 200px;
+    border: 1px solid #e1e1e8;
+    border-radius: 4px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
 .console {
 	background-color: #f7f7f9;
     border: 1px solid #e1e1e8;
     border-radius: 4px;
 	margin-bottom: 1rem;
-	max-height: 300px;
-	overflow-y: auto;
+}
+
+.console-rows {
+    max-height: 300px;
+    color: #666;
+    overflow-y: auto;
 }
 
 .console-row {
 	border-bottom: 1px solid #e1e1e8;
 }
 
+.console-row:last-child {
+	border-bottom: 0;
+}
+
 .console-input, .console-output, #console-textarea {
-	position: relative;
 	margin: 0;
-	padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+	padding: 0.25rem 0.25rem 0.25rem 1.5rem;
 	font-size: 87.5%;
-	overflow-x: auto;
+    overflow: hidden;
+}
+
+.console-input, .console-output {
+    overflow-x: auto;
+    border: 0;
+    border-radius: 0;
+    color: inherit;
+    background: none;
+}
+
+#console-textarea {
+    overflow-y: auto;
+}
+
+.console-prompt {
+    overflow: hidden;
+    border-top: 1px solid #e1e1e8;
+}
+
+.console-input, .console-output, .console-prompt {
+    position: relative;
 }
 
 .console-input::before, .console-output::before, .console-prompt::before {
-	content: "\2771";
+	content: "\00BB";
 	display: block;
 	position: absolute;
-	left: -1rem;
+	left: 0.5rem;
+    color: #ccc;
+    transform: scale(1.5);
+}
+
+.console-prompt::before {
+    color: #007bff;
+}
+
+.console-output::before {
+    content: "\00AB"
 }
 
 #console-textarea {

@@ -35,6 +35,7 @@ window.onerror = function(errorMsg, url, lineNumber) {
 			<section>
 				<div class="demo demo-1">
 					<div class="puzzle" id="puzzle-1"></div>
+					<div class="alert alert-info" id="info" role="alert" style="display: none;">Try touching & dragging the blank slide to get better experience.</div>
 					<div class="row">
 						<div class="col">
 							<button type="button" class="btn btn-primary btn-block" id="puzzle-1-randomize">Randomize</button>
@@ -130,7 +131,12 @@ window.onerror = function(errorMsg, url, lineNumber) {
 						<button type="button" class="btn btn-primary" id="puzzle-2-methods-removeEventListener">removeEventListener()</button>
 					</div>
 					<div class="console">
-						<div class="console-rows" id="console-rows"></div>
+						<div class="console-rows" id="console-rows">
+							<div class="console-row">
+								<pre class="console-input">puzzle2 = new Puzzle($(&#x22;puzzle-2&#x22;), &#x22;puzzle-2.jpg&#x22;, 4);</pre>
+								<pre class="console-output">{...}</pre>
+							</div>
+						</div>
 						<div class="console-prompt">
 							<textarea id="console-textarea" rows="1"></textarea>
 						</div>
@@ -167,6 +173,15 @@ window.onerror = function(errorMsg, url, lineNumber) {
 						<p>Fires before hint is shown/hidden. These two events are also cancellable.</p>
 					</dd>
 				</dl>
+				<div class="demo demo-3">
+					<div class="puzzle" id="puzzle-3"></div>
+					<div class="btn-toolbar" role="toolbar">
+						<button type="button" class="btn btn-primary" id="puzzle-3-randomize">Randomize</button>
+						<button type="button" class="btn btn-primary" id="puzzle-3-show-hint">Show Hint</button>
+						<button type="button" class="btn btn-primary" id="puzzle-3-let-me-solve">Let me solve</button>
+					</div>
+					<pre class="events-log" id="events-log"></pre>
+				</div>
 			</section>
 
 			<section>
@@ -219,42 +234,34 @@ $("puzzle-1-randomize").addEventListener("click", function() {
 	puzzle1.randomize();
 });
 
+$("puzzle-1-show-hint").addEventListener("mousedown", function(e) {
+	puzzle1.showHint();
+});
 $("puzzle-1-show-hint").addEventListener("touchstart", function(e) {
 	puzzle1.showHint();
 });
 
+$("puzzle-1-show-hint").addEventListener("mouseup", function(e) {
+	puzzle1.hideHint();
+});
 $("puzzle-1-show-hint").addEventListener("touchend", function(e) {
 	puzzle1.hideHint();
+});
+
+var t = 10;
+puzzle1.addEventListener("turn", function(e) {
+	if (--t == 0) {
+		$("info").style.display = "";
+		setTimeout(function() {
+			$("info").style.display = "none";
+		}, 10000);
+	}
 });
 
 
 // demo-2
 
 var puzzle2 = new Puzzle($("puzzle-2"), "puzzle-2.jpg", 4);
-
-$("puzzle-2-methods-turnLeft").addEventListener("click", function() {
-	puzzle2.turnLeft();
-});
-
-$("puzzle-2-methods-turnUp").addEventListener("click", function() {
-	puzzle2.turnUp();
-});
-
-$("puzzle-2-methods-turnRight").addEventListener("click", function() {
-	puzzle2.turnRight();
-});
-
-$("puzzle-2-methods-turnDown").addEventListener("click", function() {
-	puzzle2.turnDown();
-});
-
-$("puzzle-2-methods-randomize").addEventListener("click", function() {
-	puzzle2.randomize();
-});
-
-$("puzzle-2-methods-solve").addEventListener("click", function() {
-	puzzle2.solve();
-});
 
 var consoleRows = $("console-rows");
 var consoleInput = $("console-textarea");
@@ -266,19 +273,98 @@ var consoleEvaluate = function(code) {
 	input.className = "console-input";
 	input.innerHTML = code;
 	row.appendChild(input);
-	var output = document.createElement("pre");
-	output.className = "console-output";
-	output.innerHTML = eval(code);
-	row.appendChild(output);
+	var ret
+	try {
+		ret = eval(code);
+	} catch (err) {
+		ret = err;
+		row.className += " " + "text-danger";
+	}
+	if (ret !== undefined) {
+		var output = document.createElement("pre");
+		output.className = "console-output";
+		output.innerHTML = ret;
+		row.appendChild(output);
+	}
 	consoleRows.appendChild(row);
+	consoleRows.scrollTop = consoleRows.scrollHeight - consoleRows.clientHeight;
 };
 
 consoleInput.addEventListener("keydown", function(e) {
+	var code = consoleInput.value.trim();
 	if (e.keyCode == 13) {
-		consoleEvaluate(consoleInput.value);
-		e.preventDefault();
+		if (code.length) {
+			consoleEvaluate(code);
+		}
 		consoleInput.value = "";
+		e.preventDefault();
 	}
+});
+
+$("puzzle-2-methods-turnLeft").addEventListener("click", function() {
+	consoleEvaluate("puzzle2.turnLeft();");
+});
+
+$("puzzle-2-methods-turnUp").addEventListener("click", function() {
+	consoleEvaluate("puzzle2.turnUp();");
+});
+
+$("puzzle-2-methods-turnRight").addEventListener("click", function() {
+	consoleEvaluate("puzzle2.turnRight();");
+});
+
+$("puzzle-2-methods-turnDown").addEventListener("click", function() {
+	consoleEvaluate("puzzle2.turnDown();");
+});
+
+$("puzzle-2-methods-randomize").addEventListener("click", function() {
+	consoleEvaluate("puzzle2.randomize();");
+});
+
+$("puzzle-2-methods-solve").addEventListener("click", function() {
+	consoleEvaluate("puzzle2.solve();");
+});
+
+
+// demo-3
+
+var puzzle3 = new Puzzle($("puzzle-3"), "puzzle-3.jpg", 5);
+var eventsLog = $("events-log");
+
+var events = ["turn", "beforeturn", "solve", "randomize", "beforerandomize", "showhint", "hidehint"];
+
+for (var i = 0; i < events.length; i++) {
+	puzzle3.addEventListener(events[i], function(e) {
+		eventsLog.innerHTML += e.type + "\n";
+		eventsLog.scrollTop = eventsLog.scrollHeight - eventsLog.clientHeight;
+	});
+}
+
+$("puzzle-3-randomize").addEventListener("click", function() {
+	puzzle3.randomize();
+});
+
+$("puzzle-3-show-hint").addEventListener("mousedown", function(e) {
+	puzzle3.showHint();
+});
+$("puzzle-3-show-hint").addEventListener("touchstart", function(e) {
+	puzzle3.showHint();
+});
+
+$("puzzle-3-show-hint").addEventListener("mouseup", function(e) {
+	puzzle3.hideHint();
+});
+$("puzzle-3-show-hint").addEventListener("touchend", function(e) {
+	puzzle3.hideHint();
+});
+
+$("puzzle-3-let-me-solve").addEventListener("click", function() {
+	if (puzzle3.hintShown) return;
+	for (var i = 0; i < puzzle3.orderedSlides.length; i++) {
+		puzzle3.slides[i] = puzzle3.orderedSlides[i];
+	}
+	puzzle3.updateSlides();
+	puzzle3.randomize(1);
 });
 
 		</script>

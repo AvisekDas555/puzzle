@@ -160,6 +160,10 @@
 	z-index: 0;
 }
 
+.Puzzle-blank-slide:active {
+	cursor: move;
+}
+
 .Puzzle.Puzzle-solved > .Puzzle-slides > .Puzzle-slide:not(.Puzzle-blank-slide) {
 	-webkit-box-shadow: none;
 	   -moz-box-shadow: none;
