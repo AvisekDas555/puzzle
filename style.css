@@ -9124,6 +9124,44 @@ dt > code > strong {
     cursor: grabbing;
 }
 
+.Puzzle::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: -4px;
+    background-image: linear-gradient(to bottom right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    background-size: 200% 200%;
+    border-radius: inherit;
+    opacity: 0;
+    filter: blur(8px);
+    z-index: -1;
+}
+
+.Puzzle.Puzzle-solved::before {
+    animation: animate 8s linear;
+}
+
+@keyframes animate {
+    0% {
+        background-position: 0% 0%;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        background-position: 100% 100%;
+        opacity: 0;
+    }
+}
+
 .console {
 	background-color: #f7f7f9;
     border: 1px solid #e1e1e8;
