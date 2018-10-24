@@ -9098,6 +9098,22 @@ pre {
     overflow: auto;
 }
 
+dt {
+    font-weight: normal;
+}
+
+dt > code {
+    color: #007bff;
+}
+
+dt > code > strong {
+    padding: 2px 4px;
+    color: #c7254e;
+    background-color: #f9f2f4;
+    border-radius: 4px;
+    margin-right: 4px;
+}
+
 #puzzle-1-show-hint:hover, #puzzle-3-show-hint:hover {
     cursor: -webkit-grab;
     cursor: grab;
