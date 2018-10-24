@@ -134,6 +134,7 @@
 .Puzzle-blank-slide {
 	/*visibility: hidden;*/
 	opacity: 0;
+	cursor: move;
 	-webkit-box-shadow: none;
 	   -moz-box-shadow: none;
 	        box-shadow: none;
@@ -161,7 +162,7 @@
 }
 
 .Puzzle-blank-slide:active {
-	cursor: move;
+	cursor: default;
 }
 
 .Puzzle.Puzzle-solved > .Puzzle-slides > .Puzzle-slide:not(.Puzzle-blank-slide) {

@@ -255,15 +255,16 @@
 					dragging = true;
 					document.addEventListener("mousemove", onMouseMove);
 					document.addEventListener("mouseup", onMouseUp);
+					e.preventDefault();
 				}
 			}
-			e.preventDefault();
 		}
 
 		var onMouseMove = function(e) {
 			if (dragging) {
 				if (e.which == 1) {
 					onDragMove.call(blankSlide, e);
+					e.preventDefault();
 				} else {
 					onDragCancel.call(blankSlide, e);
 					dragging = false;
@@ -277,6 +278,7 @@
 		var onMouseUp = function(e) {
 			if (e.which == 1) {
 				onDragEnd.call(blankSlide, e);
+				e.preventDefault();
 				dragging = false;
 				document.removeEventListener("mousemove", onMouseMove);
 				document.removeEventListener("mouseup", onMouseUp);

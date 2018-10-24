@@ -9095,8 +9095,17 @@ pre {
     max-height: 200px;
     border: 1px solid #e1e1e8;
     border-radius: 4px;
-    overflow: hidden;
-    overflow-y: auto;
+    overflow: auto;
+}
+
+#puzzle-1-show-hint:hover, #puzzle-3-show-hint:hover {
+    cursor: -webkit-grab;
+    cursor: grab;
+}
+
+#puzzle-1-show-hint:active, #puzzle-3-show-hint:active {
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
 }
 
 .console {

@@ -35,7 +35,6 @@ window.onerror = function(errorMsg, url, lineNumber) {
 			<section>
 				<div class="demo demo-1">
 					<div class="puzzle" id="puzzle-1"></div>
-					<div class="alert alert-info" id="info" role="alert" style="display: none;">Try touching & dragging the blank slide to get better experience.</div>
 					<div class="row">
 						<div class="col">
 							<button type="button" class="btn btn-primary btn-block" id="puzzle-1-randomize">Randomize</button>
@@ -50,8 +49,8 @@ window.onerror = function(errorMsg, url, lineNumber) {
 			<section>
 				<h3>Getting Started</h3>
 				<p>Just include the needed CSS and JavaScript files, and you are ready to go!</p>
-				<pre>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;puzzle.css&quot; /&gt;
-&lt;script type=&quot;text/javascript&quot; src=&quot;puzzle.js&quot;&gt;&lt;/script&gt;
+				<pre>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;<a href="puzzle.js">puzzle.css</a>&quot; /&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;<a href="puzzle.js">puzzle.js</a>&quot;&gt;&lt;/script&gt;
 
 &lt;script type=&quot;text/javascript&quot;&gt;
 	var container = document.getElementById(&quot;puzzle&quot;);
@@ -134,7 +133,6 @@ window.onerror = function(errorMsg, url, lineNumber) {
 						<div class="console-rows" id="console-rows">
 							<div class="console-row">
 								<pre class="console-input">puzzle2 = new Puzzle($(&#x22;puzzle-2&#x22;), &#x22;puzzle-2.jpg&#x22;, 4);</pre>
-								<pre class="console-output">{...}</pre>
 							</div>
 						</div>
 						<div class="console-prompt">
@@ -252,16 +250,6 @@ $("puzzle-1-show-hint").addEventListener("mouseup", function(e) {
 });
 $("puzzle-1-show-hint").addEventListener("touchend", function(e) {
 	puzzle1.hideHint();
-});
-
-var t = 10;
-puzzle1.addEventListener("turn", function(e) {
-	if (--t == 0) {
-		$("info").style.display = "";
-		setTimeout(function() {
-			$("info").style.display = "none";
-		}, 10000);
-	}
 });
 
 
