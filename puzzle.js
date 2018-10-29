@@ -205,7 +205,7 @@
 					}
 				}
 			}
-			e.preventDefault();
+			//e.preventDefault();
 		};
 
 		var onTouchEnd = function(e) {
@@ -570,16 +570,16 @@
 		},
 
 		addEventListener: function(type, handler) {
-			this.container.addEventListener(type, handler, false);
+			this.container.addEventListener("puzzle" + type, handler, false);
 		},
 
 		removeEventListener: function(type, handler) {
-			this.container.removeEventListener(type, handler, false);
+			this.container.removeEventListener("puzzle" + type, handler, false);
 		},
 
 		triggerEvent: function(type, overrides) {
 			var event = document.createEvent("Event");
-			event.initEvent(type, true, true);
+			event.initEvent("puzzle" + type, true, true);
 			if (typeof overrides === "object") {
 				for (var i in overrides) {
 					event[i] = overrides[i];
